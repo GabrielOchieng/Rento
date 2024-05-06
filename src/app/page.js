@@ -4,6 +4,7 @@ import Listing from "@/components/Listing";
 import Manage from "@/components/Manage";
 import Ownership from "@/components/Ownership";
 import Renting from "@/components/Renting";
+import Streets from "@/components/Streets";
 import React from "react";
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
       <Ownership />
       <Manage />
       <Renting />
+      <Streets />
     </div>
   );
 };
