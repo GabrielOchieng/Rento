@@ -56,7 +56,7 @@ const Navbar = () => {
           );
         })}
         <div className="bg-gray-700 py-2 px-5">
-          <Link href="/" className=" text-white hover:underline">
+          <Link href="/create" className=" text-white hover:underline">
             Add Property
           </Link>
         </div>
