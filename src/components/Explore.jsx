@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import home from "../../public/assets/images/homebg.jpeg";
+import Link from "next/link";
 
 const items = [
   {
@@ -64,7 +65,7 @@ const Explore = () => {
           type="submit"
           className=" bg-green-400 hover:bg-green-900 text-white font-bold p-3 w-32 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
         >
-          View more
+          <Link href="/houselist">View more</Link>
         </button>
       </div>
     </div>

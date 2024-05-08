@@ -3,23 +3,20 @@
 import { useState } from "react";
 import axios from "axios";
 // Replace with your actual API route URL
-const CREATE_HOUSE_URL = "/api/houses";
+const CREATE_HOUSE_URL = "http://localhost:5000/api/houses";
 
 const HouseForm = () => {
   const [landlord, setLandlord] = useState(""); // Assuming you have landlord data
-  const [address, setAddress] = useState({
-    street: "",
-    town: "",
-    estate: "",
-    zipcode: "",
-  });
+  const [street, setStreet] = useState("");
+  const [town, setTown] = useState("");
+  const [estate, setEstate] = useState("");
+  const [address, setAddress] = useState("");
   const [propertyType, setPropertyType] = useState("");
   const [bedrooms, setBedrooms] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
   const [rentPrice, setRentPrice] = useState(0);
   const [photos, setPhotos] = useState([]); // Array of image URLs
   const [description, setDescription] = useState("");
-  const [amenities, setAmenities] = useState([]); // Array of amenity strings
   const [contactInfo, setContactInfo] = useState("");
 
   const handleSubmit = async (e) => {
@@ -27,6 +24,9 @@ const HouseForm = () => {
 
     const houseData = {
       landlord,
+      street,
+      town,
+      estate,
       address,
       propertyType,
       bedrooms,
@@ -34,13 +34,14 @@ const HouseForm = () => {
       rentPrice,
       photos,
       description,
-      amenities,
+
       contactInfo,
     };
 
     try {
       const response = await axios.post(CREATE_HOUSE_URL, houseData);
       console.log("House created successfully:", response.data);
+      console.log(houseData);
       // Handle successful house creation (e.g., redirect to confirmation page)
     } catch (error) {
       console.error("House creation error:", error.response.data);
@@ -67,7 +68,7 @@ const HouseForm = () => {
                 htmlFor="street"
                 className="block text-sm font-medium text-gray-700"
               >
-                Street Address
+                Street
               </label>
               <input
                 type="text"
@@ -75,6 +76,7 @@ const HouseForm = () => {
                 name="street"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setStreet(e.target.value)}
               />
             </div>
             <div>
@@ -90,6 +92,7 @@ const HouseForm = () => {
                 name="town"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setTown(e.target.value)}
               />
             </div>
             <div>
@@ -104,6 +107,7 @@ const HouseForm = () => {
                 id="estate"
                 name="estate"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setEstate(e.target.value)}
               />
             </div>
             <div>
@@ -119,6 +123,7 @@ const HouseForm = () => {
                 name="zipcode"
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setAddress(e.target.value)}
               />
             </div>
           </div>
@@ -136,6 +141,7 @@ const HouseForm = () => {
               name="propertyType"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              onChange={(e) => setPropertyType(e.target.value)}
             >
               <option value="">Select Property Type</option>
               <option value="Apartment">Apartment</option>
@@ -165,6 +171,7 @@ const HouseForm = () => {
                 required
                 min="1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setBedrooms(e.target.value)}
               />
             </div>
             <div>
@@ -181,6 +188,7 @@ const HouseForm = () => {
                 required
                 min="1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setBathrooms(e.target.value)}
               />
             </div>
             <div>
@@ -197,6 +205,7 @@ const HouseForm = () => {
                 required
                 min="1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setRentPrice(e.target.value)}
               />
             </div>
             <div>
@@ -213,6 +222,7 @@ const HouseForm = () => {
                 required
                 min="1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setContactInfo(e.target.value)}
               />
             </div>
             <div>
@@ -228,6 +238,7 @@ const HouseForm = () => {
                 required
                 rows={5}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
             <div>
