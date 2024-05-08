@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import home from "../../public/assets/images/homebg.jpeg";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const items = [
   {
@@ -35,19 +37,25 @@ const items = [
 ];
 
 const Explore = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(isLoggedIn);
   return (
     <div className="flex flex-col pt-10 pb-8 items-center gap-10 justify-between">
       <div>
         <h1 className="font-bold text-4xl">Explore Rentals in Nairobi</h1>
       </div>
       <div className="flex items-center gap-4">
-        {items.map((item) => {
+        {items.map((item, index) => {
           return (
-            <div className="flex flex-col border border-green-400 rounded-md w-1/4 gap-4 pb-4 hover:scale-110 transition duration-300 ease-in-out">
+            <div
+              key={index}
+              className="flex flex-col border border-green-400 rounded-md w-1/4 gap-4 pb-4 hover:scale-110 transition duration-300 ease-in-out"
+            >
               <Image
                 src={item.image.home}
                 width={250}
                 height={250}
+                alt="House image"
                 className="rounded-t-md"
               />
               <div className="flex flex-col ml-4 ">

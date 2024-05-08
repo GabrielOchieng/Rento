@@ -28,7 +28,7 @@ const Listing = () => {
         <div className="w-1/2 ">
           <Image
             src={browsing}
-            alt="Browsing image"
+            alt="Browsing"
             className="w-full h-64 object-cover"
           />
         </div>

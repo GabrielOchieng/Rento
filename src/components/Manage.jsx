@@ -30,7 +30,7 @@ const Manage = () => {
           <div className="w-1/2 ">
             <Image
               src={rentals}
-              alt="Home image"
+              alt="Home"
               className="w-full h-64 object-cover"
             />
           </div>
@@ -39,7 +39,7 @@ const Manage = () => {
           <div className="w-1/2 ">
             <Image
               src={housekey}
-              alt="Home image"
+              alt="Home"
               className="w-full h-64 object-cover"
             />
           </div>

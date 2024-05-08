@@ -31,11 +31,7 @@ const Ownership = () => {
           </Link>
         </div>
         <div className="w-1/2 ">
-          <Image
-            src={home}
-            alt="Home image"
-            className="w-full h-68 object-cover"
-          />
+          <Image src={home} alt="Home" className="w-full h-68 object-cover" />
         </div>
       </div>
     </div>

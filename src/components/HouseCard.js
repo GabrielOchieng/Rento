@@ -17,7 +17,7 @@ const HouseCard = ({ house }) => {
     <div className="bg-white rounded-md shadow-md p-4 flex flex-col space-y-2">
       <Image
         src={home} // Display first photo or placeholder
-        alt="House Image"
+        alt="House"
         className="w-full h-48 object-cover rounded-t-md"
       />
 

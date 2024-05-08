@@ -27,7 +27,7 @@ const HouseList = () => {
       <h1 className="text-3xl font-bold text-center mb-4">
         Available Properties
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {houses.length > 0 ? (
           houses.map((house) => (
             <HouseCard key={house._id} house={house} /> // Pass house data to HouseCard

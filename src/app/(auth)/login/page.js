@@ -5,8 +5,11 @@ import axios from "axios";
 import Link from "next/link";
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { authActions } from "@/redux/store/auth-slice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +27,8 @@ const Login = () => {
       );
 
       console.log("Login successful:", response.data);
+      //dispatch redux actions
+      dispatch(authActions.login());
       router.push("/");
       // Handle successful login (e.g., store token, redirect to dashboard)
     } catch (error) {
@@ -45,7 +50,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">
-            <label for="email" className="text-sm font-medium mb-1">
+            <label htmlFor="email" className="text-sm font-medium mb-1">
               Email Address
             </label>
             <input
@@ -60,7 +65,7 @@ const Login = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label for="password" className="text-sm font-medium mb-1">
+            <label htmlFor="password" className="text-sm font-medium mb-1">
               Password
             </label>
             <input

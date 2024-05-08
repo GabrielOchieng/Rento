@@ -34,7 +34,7 @@ const Renting = () => {
           <div className="w-1/2 ">
             <Image
               src={family}
-              alt="Home image"
+              alt="Home"
               className="w-full h-64 object-cover"
             />
           </div>
@@ -43,7 +43,7 @@ const Renting = () => {
           <div className="w-1/2 ">
             <Image
               src={browsing}
-              alt="Home image"
+              alt="Home"
               className="w-full h-64 object-cover"
             />
           </div>
@@ -71,14 +71,18 @@ const Renting = () => {
               in the palm of your hand throughout your rental journey.
             </p>
             <div className=" flex gap-3">
-              <Image src={appstore} className="cursor-pointer" />
-              <Image src={googleplay} className="cursor-pointer" />
+              <Image src={appstore} className="cursor-pointer" alt="appstore" />
+              <Image
+                src={googleplay}
+                className="cursor-pointer"
+                alt="googleplay"
+              />
             </div>
           </div>
           <div className="w-1/2 ">
             <Image
               src={phoneb}
-              alt="Home image"
+              alt="Home"
               className="w-full h-64 object-cover"
             />
           </div>
