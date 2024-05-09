@@ -1,7 +1,7 @@
 import Image from "next/image";
 import home from "../../public/assets/images/homebg.jpeg";
 
-const HouseCard = ({ house }) => {
+const HouseCard = ({ house, onViewDetails }) => {
   // Assuming house object has properties like address, photos, rentPrice
   const {
     address,
@@ -16,7 +16,7 @@ const HouseCard = ({ house }) => {
   return (
     <div className="bg-white rounded-md shadow-md p-4 flex flex-col space-y-2">
       <Image
-        src={home} // Display first photo or placeholder
+        src={photos && photos[0] ? photos[0] : home} // Display first photo or placeholder
         alt="House"
         className="w-full h-48 object-cover rounded-t-md"
       />
@@ -29,7 +29,10 @@ const HouseCard = ({ house }) => {
         {/* <span className="text-gray-700"> {street}</span> */}
       </div>
       {/* <p className="text-gray-600 line-clamp-2"></p> */}
-      <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+      <button
+        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+        onClick={() => onViewDetails()} // Call onViewDetails prop function on click
+      >
         View Details
       </button>
     </div>

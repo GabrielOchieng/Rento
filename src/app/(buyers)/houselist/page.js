@@ -166,6 +166,12 @@ const HouseList = () => {
     console.log(filtered);
   };
 
+  const handleViewDetails = (houseId) => {
+    // Navigate to the house details page using a routing library (e.g., React Router)
+    const pathToDetailsPage = `/houses/${houseId}`; // Replace with your actual path
+    window.location.href = pathToDetailsPage; // Basic navigation for demonstration
+  };
+
   return (
     <div className="mx-auto  pt-8 ">
       <div className="bg-white px-4">
@@ -304,7 +310,11 @@ const HouseList = () => {
         {filteredHouses.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {filteredHouses.map((house) => (
-              <HouseCard key={house._id} house={house} />
+              <HouseCard
+                key={house._id}
+                house={house}
+                onViewDetails={() => handleViewDetails(house._id)}
+              />
             ))}
           </div>
         ) : (
