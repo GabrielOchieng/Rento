@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
@@ -27,6 +27,11 @@ const Login = () => {
       );
 
       console.log("Login successful:", response.data);
+
+      const { token } = response.data; //access token from response
+      localStorage.setItem("userToken", token); //store token in local storage
+      console.log("token:", token);
+
       //dispatch redux actions
       dispatch(authActions.login());
       router.push("/");
@@ -36,6 +41,13 @@ const Login = () => {
       // Handle login errors (e.g., display error message to user)
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      dispatch(authActions.login());
+    }
+  }, [dispatch]);
 
   return (
     <div

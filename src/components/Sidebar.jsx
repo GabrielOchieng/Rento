@@ -39,7 +39,10 @@ const Sidebar = ({ children, isOpen, toggleSidebar }) => {
       </div>
       <nav className="px-4 pt-4 flex flex-col gap-4">
         {items.map((item, index) => (
-          <div className="flex items-center gap-2 hover:bg-green-400 w-full pl-2">
+          <div
+            className="flex items-center gap-2 hover:bg-green-400 w-full pl-2"
+            key={index}
+          >
             {" "}
             <Link href={item.url}>{item.name}</Link>
             <IoIosArrowForward />
