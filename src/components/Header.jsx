@@ -1,6 +1,45 @@
+"use client";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import backgroundImg from "../../public/assets/images/backgroundImg.jpg";
+import HouseSearchModal from "./HouseSearchModal";
+
+const GET_HOUSES_URL = "http://localhost:5000/api/houses";
 
 const Header = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [houses, setHouses] = useState([]);
+
+  useEffect(() => {
+    const fetchHouses = async () => {
+      try {
+        const response = await axios.get(GET_HOUSES_URL);
+        setHouses(response.data);
+      } catch (error) {
+        console.error("Error fetching houses:", error);
+      }
+    };
+
+    fetchHouses();
+  }, []);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    const filteredResults = houses.filter((house) =>
+      house.town?.includes(searchTerm)
+    );
+    setSearchResults(filteredResults);
+    setIsModalOpen(searchTerm.length > 0);
+  };
+
+  const handleSearchSubmit = () => {
+    console.log(searchTerm);
+    setIsModalOpen(false);
+    setSearchTerm("");
+  };
+
   return (
     <div
       className="header  bg-cover bg-no-repeat bg-center h-96 text-center flex flex-col justify-center gap-3"
@@ -15,6 +54,8 @@ const Header = () => {
           type="text"
           placeholder="Nairobi"
           className="ml-3 outline-none p-3 h-12 rounded-sm border-green-400 border w-96"
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
         <label
           htmlFor="search"
@@ -23,6 +64,14 @@ const Header = () => {
           Search
         </label>
       </div>
+      {isModalOpen && (
+        <HouseSearchModal
+          searchResults={searchResults}
+          searchTerm={searchTerm}
+          handleSearchSubmit={handleSearchSubmit}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
