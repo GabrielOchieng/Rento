@@ -3,27 +3,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import backgroundImg from "../../public/assets/images/backgroundImg.jpg";
 import HouseSearchModal from "./HouseSearchModal";
-
-const GET_HOUSES_URL = "http://localhost:5000/api/houses";
+import { useGetHousesQuery } from "@/redux/slices/housesApiSlice";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [houses, setHouses] = useState([]);
-
-  useEffect(() => {
-    const fetchHouses = async () => {
-      try {
-        const response = await axios.get(GET_HOUSES_URL);
-        setHouses(response.data);
-      } catch (error) {
-        console.error("Error fetching houses:", error);
-      }
-    };
-
-    fetchHouses();
-  }, []);
+  const { data: houses, isloading, error } = useGetHousesQuery();
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 
 const HouseDetails = ({ params }) => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { userInfo } = useSelector((state) => state.auth);
   const houseId = params.id; // Get house ID from URL parameters
   const [house, setHouse] = useState(null);
   const [showSellerInfo, setShowSellerInfo] = useState(false); // State for seller info visibility
@@ -63,7 +63,7 @@ const HouseDetails = ({ params }) => {
       </button>
 
       {showSellerInfo &&
-        (isLoggedIn ? (
+        (userInfo ? (
           <div className="mt-4 border rounded p-4">
             {/* Add content for Seller Information here */}
             <p>Seller Name: {/* Replace with actual seller information */}</p>
