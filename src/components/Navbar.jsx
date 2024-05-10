@@ -3,17 +3,19 @@ import Link from "next/link";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "@/redux/slices/usersApiSlice";
+import { logOut } from "@/redux/slices/AuthSlice";
 
 const items = [
   {
     name: "Rentals",
     url: "/",
   },
-  {
-    name: "Signin",
-    url: "/login",
-  },
+  // {
+  //   name: "Signin",
+  //   url: "/login",
+  // },
   {
     name: "Rent",
     url: "/",
@@ -26,10 +28,21 @@ const items = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+  const dispatch = useDispatch();
+  const [logOutApiCall] = useLogoutMutation();
+
+  const logOutHandler = async () => {
+    try {
+      await logOutApiCall().unwrap();
+      dispatch(logOut());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,9 +70,21 @@ const Navbar = () => {
             </Link>
           );
         })}
+        {userInfo ? (
+          <div className="py-5 px-5 flex gap-2">
+            <p>Welcome {userInfo.data.name}</p>
+            <Link href="/" onClick={logOutHandler}>
+              Logout
+            </Link>
+          </div>
+        ) : (
+          <div className="py-5 px-5">
+            <Link href="/login">Sign in</Link>
+          </div>
+        )}
         <div className="bg-gray-700 py-5 px-5">
           <Link
-            href={isLoggedIn ? "/create" : "/login"}
+            href={userInfo ? "/create" : "/login"}
             className=" text-white hover:underline"
           >
             Add Property

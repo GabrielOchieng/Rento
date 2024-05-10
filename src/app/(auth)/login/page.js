@@ -5,49 +5,35 @@ import axios from "axios";
 import Link from "next/link";
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { authActions } from "@/redux/store/auth-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "@/redux/slices/usersApiSlice";
+import { setCredentials } from "@/redux/slices/AuthSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push("/");
+    }
+  }, [router, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email,
-          password,
-        }
-      );
-
-      console.log("Login successful:", response.data);
-
-      const { token } = response.data; //access token from response
-      localStorage.setItem("userToken", token); //store token in local storage
-      console.log("token:", token);
-
-      //dispatch redux actions
-      dispatch(authActions.login());
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
       router.push("/");
-      // Handle successful login (e.g., store token, redirect to dashboard)
-    } catch (error) {
-      console.error("Login error:", error.response.data);
-      // Handle login errors (e.g., display error message to user)
+    } catch (err) {
+      toast.error(err?.data?.message || err.data);
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      dispatch(authActions.login());
-    }
-  }, [dispatch]);
 
   return (
     <div
@@ -91,6 +77,7 @@ const Login = () => {
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
+          {isLoading && <>Loading...</>}
           <button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"

@@ -1,40 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useRegisterMutation } from "@/redux/slices/usersApiSlice";
+import { setCredentials } from "@/redux/slices/AuthSlice";
 
 const Signup = () => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState(""); // Assuming you have default selection
   const [phoneNumber, setPhoneNumber] = useState("");
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const [register, { isLoading }] = useRegisterMutation();
+
+  useEffect(() => {
+    if (userInfo) {
+      // router.push("/login");
+    }
+  }, [router, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/signup",
-        {
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await register({
           name,
           email,
           password,
           userType,
           phoneNumber,
-        }
-      );
+        });
+        dispatch(setCredentials({ ...res }));
 
-      console.log("Signup successful:", response.data);
-      router.push("/login");
-
-      // Handle successful signup (e.g., redirect to login page)
-    } catch (error) {
-      console.error("Signup error:", error.response.data);
-      // Handle signup errors (e.g., display error message to user)
+        toast.success("User created successfully");
+        router.push("/");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+        console.log(err);
+      }
     }
   };
 
@@ -51,7 +65,7 @@ const Signup = () => {
         <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">
-            <label for="name" className="text-sm font-medium mb-1">
+            <label htmlFor="name" className="text-sm font-medium mb-1">
               Full Name
             </label>
             <input
@@ -65,7 +79,7 @@ const Signup = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label for="email" className="text-sm font-medium mb-1">
+            <label htmlFor="email" className="text-sm font-medium mb-1">
               Email Address
             </label>
             <input
@@ -80,7 +94,7 @@ const Signup = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label for="password" className="text-sm font-medium mb-1">
+            <label htmlFor="password" className="text-sm font-medium mb-1">
               Password
             </label>
             <input
@@ -95,7 +109,25 @@ const Signup = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label for="userType" className="text-sm font-medium mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="text-sm font-medium mb-1"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+              autoComplete="current-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="userType" className="text-sm font-medium mb-1">
               User Type
             </label>
             {/* Implement user type selection based on your UI framework (dropdown, radio buttons, etc.) */}
@@ -113,7 +145,7 @@ const Signup = () => {
             </select>
           </div>
           <div className="flex flex-col">
-            <label for="phoneNumber" className="text-sm font-medium mb-1">
+            <label htmlFor="phoneNumber" className="text-sm font-medium mb-1">
               Phone number
             </label>
 
@@ -128,6 +160,7 @@ const Signup = () => {
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
+          {isLoading && <h2>Loading...</h2>}
           <button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"

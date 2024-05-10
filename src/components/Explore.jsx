@@ -37,8 +37,8 @@ const items = [
 ];
 
 const Explore = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // console.log(isLoggedIn);
   return (
     <div className="flex flex-col pt-10 pb-8 items-center gap-10 justify-between">
       <div>
