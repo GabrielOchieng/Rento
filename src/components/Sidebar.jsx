@@ -1,7 +1,10 @@
 "use client";
+import { useLogoutMutation } from "@/redux/slices/usersApiSlice";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "@/redux/slices/AuthSlice";
 
 const items = [
   { name: "Manage Rentals", url: "/" },
@@ -12,13 +15,25 @@ const items = [
 ];
 
 const Sidebar = ({ children, isOpen, toggleSidebar }) => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const [logOutApiCall] = useLogoutMutation();
+  const dispatch = useDispatch();
+
+  const logOutHandler = async () => {
+    try {
+      await logOutApiCall().unwrap();
+      dispatch(logOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className={`fixed top-0 left-0 h-96 w-72 z-50 bg-gray-300 rounded-r-md transition duration-300 ease-in-out ${
         isOpen ? "opacity-100" : "opacity-0"
       } `}
     >
-      <div className="flex items-center justify-between h-12 px-4 bg-gray-900 text-white">
+      <div className="flex items-center justify-between h-16 px-4 bg-gray-900 text-white">
         <h1 className="text-xl font-bold">RENTO</h1>
         <button onClick={toggleSidebar} className="focus:outline-none">
           <svg
@@ -48,6 +63,32 @@ const Sidebar = ({ children, isOpen, toggleSidebar }) => {
             <IoIosArrowForward />
           </div>
         ))}
+        <div className="flex flex-col w-full gap-2 pl-2 md:hidden">
+          <div className="">
+            <Link
+              href={userInfo ? "/create" : "/login"}
+              className=" hover:underline"
+            >
+              Add Property
+            </Link>
+          </div>
+          {userInfo ? (
+            <div className="">
+              <p>Welcome {userInfo?.data?.name}</p>
+              <Link
+                href="/"
+                onClick={logOutHandler}
+                className="hover:underline"
+              >
+                Logout
+              </Link>
+            </div>
+          ) : (
+            <div className="py-4 px-5">
+              <Link href="/login">Sign in</Link>
+            </div>
+          )}
+        </div>
       </nav>
     </div>
   );

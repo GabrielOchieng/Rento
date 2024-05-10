@@ -29,7 +29,7 @@ const items = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -46,9 +46,9 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white w-full flex justify-between pl-5 shadow-md">
+    <div className="bg-white w-full flex   justify-between pl-5 shadow-md">
       {isOpen && <Sidebar toggleSidebar={toggleSidebar} isOpen={isOpen} />}
-      <div className="flex gap-2 py-5">
+      <div className="flex gap-2 py-4 items-center ">
         <button onClick={toggleSidebar}>
           <HiOutlineMenuAlt1 className="text-2xl font-bold cursor-pointer" />
         </button>
@@ -56,29 +56,29 @@ const Navbar = () => {
         <p>Menu</p>
       </div>
       <div>
-        <h1 className="font-bold text-2xl text-green-400 py-5">RENTO</h1>
+        <h1 className="font-bold text-2xl   text-green-400  py-4">RENTO</h1>
       </div>
-      <div className="flex gap-3 ">
+      <div className="  hidden md:flex gap-3 ">
         {items.map((item, index) => {
           return (
             <Link
               href={item.url}
               key={index}
-              className="hover:text-green-700 py-5"
+              className="hover:text-green-700 py-4"
             >
               {item.name}{" "}
             </Link>
           );
         })}
         {userInfo ? (
-          <div className="py-5 px-5 flex gap-2">
+          <div className="py-4 px-5 flex gap-2">
             <p>Welcome {userInfo?.data?.name}</p>
             <Link href="/" onClick={logOutHandler}>
               Logout
             </Link>
           </div>
         ) : (
-          <div className="py-5 px-5">
+          <div className="py-4 px-5">
             <Link href="/login">Sign in</Link>
           </div>
         )}
