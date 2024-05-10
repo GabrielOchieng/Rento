@@ -10,9 +10,9 @@ const HouseSearchModal = ({
 }) => {
   console.log(searchTerm);
   return (
-    <div className="fixed top-16 right-0 w-full lg:w-1/3 z-50 bg-gray-100 rounded shadow-md p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h6 className="text-lg font-bold">Search Results</h6>
+    <div className=" flex flex-col items-start w-60  z-50 bg-gray-100 rounded shadow-md p-4">
+      <div className="flex gap-10  mb-4">
+        <h6 className="text-lg font-bold underline">Search Results</h6>
         <button
           type="button"
           onClick={onClose}
