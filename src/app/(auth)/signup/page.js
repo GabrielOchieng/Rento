@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

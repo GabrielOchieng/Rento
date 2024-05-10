@@ -1,104 +1,26 @@
-// "use client";
-// import { useState, useEffect } from "react";
-// import axios from "axios";
-// import HouseCard from "@/components/HouseCard";
-
-// // Replace with your actual API route URL
-// const GET_HOUSES_URL = "http://localhost:5000/api/houses";
-
-// const HouseList = () => {
-//   const [houses, setHouses] = useState([]);
-//   const [sortBy, setSortBy] = useState(""); // State to store sort criteria
-
-//   useEffect(() => {
-//     const fetchHouses = async () => {
-//       try {
-//         const response = await axios.get(GET_HOUSES_URL);
-//         setHouses(response.data);
-//       } catch (error) {
-//         console.error("Error fetching houses:", error);
-//       }
-//     };
-
-//     fetchHouses();
-//   }, []);
-
-//   const sortHouses = (criteria) => {
-//     setSortBy(criteria);
-//     const sortedHouses = [...houses].sort((a, b) => {
-//       switch (criteria) {
-//         case "price-asc":
-//           return a.rentPrice - b.rentPrice;
-//         case "price-desc":
-//           return b.rentPrice - a.rentPrice;
-//         case "numberOfBedrooms-asc":
-//           return a.numberOfBedrooms - b.numberOfBedrooms;
-//         case "numberOfBedrooms-desc":
-//           return b.numberOfBedrooms - a.numberOfBedrooms;
-//         // Add more cases for other sorting criteria
-//         default:
-//           return 0;
-//       }
-//     });
-//     setHouses(sortedHouses);
-//   };
-
-//   return (
-//     <div className="mx-auto px-4 py-8 bg-gray-200">
-//       <h1 className="text-3xl font-bold text-center mb-4">
-//         Available Properties
-//       </h1>
-//       <div className="flex justify-between mb-4">
-//         <p>Sort by:</p>
-//         <div className="flex items-center">
-
-//         </div>
-//       </div>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-//         {houses.length > 0 ? (
-//           houses.map((house) => <HouseCard key={house._id} house={house} />)
-//         ) : (
-//           <p className="text-center text-gray-500">No houses found.</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default HouseList;
-
 "use client";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HouseCard from "@/components/HouseCard";
-
-// Replace with your actual API route URL
-const GET_HOUSES_URL = "http://localhost:5000/api/houses";
+import { useDispatch } from "react-redux";
+import { useGetHousesQuery } from "@/redux/slices/housesApiSlice";
 
 const HouseList = () => {
-  const [houses, setHouses] = useState([]); // State for all houses
-  const [filteredHouses, setFilteredHouses] = useState([]); // State for filtered houses
+  const [filteredHouses, setFilteredHouses] = useState([]); // State for filtered properties
   const [minRentPrice, setMinRentPrice] = useState(""); // State for minimum price
   const [maxRentPrice, setMaxRentPrice] = useState(""); // State for maximum price
   const [housePropertyType, setHousePropertyType] = useState(""); // State for house type
   const [numberOfBedrooms, setNumberOfBedrooms] = useState(""); // State for number of numberOfBedrooms
   const [town, setTown] = useState(""); // State for towns
   const [estate, setEstate] = useState(""); // State for estates
+  const dispatch = useDispatch();
+  const { data: houses, isloading, error } = useGetHousesQuery();
+  console.log(houses);
 
   useEffect(() => {
-    const fetchHouses = async () => {
-      try {
-        const response = await axios.get(GET_HOUSES_URL);
-        setHouses(response.data);
-        setFilteredHouses(response.data); // Set initial filtered houses to all houses
-      } catch (error) {
-        console.error("Error fetching houses:", error);
-      }
-    };
-
-    fetchHouses();
-  }, []);
+    setFilteredHouses(houses);
+  }, [houses]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -305,11 +227,12 @@ const HouseList = () => {
           </button>
         </form>
       </div>
+
       <div className="bg-gray-200 px-4 py-8">
         <h1 className="text-3xl font-bold mb-4">Available Properties</h1>
-        {filteredHouses.length > 0 ? (
+        {filteredHouses?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {filteredHouses.map((house) => (
+            {filteredHouses?.map((house) => (
               <HouseCard
                 key={house._id}
                 house={house}
@@ -319,7 +242,7 @@ const HouseList = () => {
           </div>
         ) : (
           <p className="text-center text-gray-500">
-            No houses found matching your criteria.
+            No properties found matching your criteria.
           </p>
         )}
       </div>

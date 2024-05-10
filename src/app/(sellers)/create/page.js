@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { useCreateHouseMutation } from "@/redux/slices/housesApiSlice";
+import { addHouse } from "@/redux/slices/HouseSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 // Replace with your actual API route URL
 const CREATE_HOUSE_URL = "http://localhost:5000/api/houses";
 
@@ -19,34 +23,60 @@ const HouseForm = () => {
   const [description, setDescription] = useState("");
   const [contactInfo, setContactInfo] = useState("");
 
+  const dispatch = useDispatch();
+  const [createHouse, { isloading }] = useCreateHouseMutation();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const houseData = {
-      landlord,
-      street,
-      town,
-      estate,
-      address,
-      propertyType,
-      bedrooms,
-      bathrooms,
-      rentPrice,
-      photos,
-      description,
+    // const houseData = {
+    //   landlord,
+    //   street,
+    //   town,
+    //   estate,
+    //   address,
+    //   propertyType,
+    //   bedrooms,
+    //   bathrooms,
+    //   rentPrice,
+    //   photos,
+    //   description,
 
-      contactInfo,
-    };
+    //   contactInfo,
+    // };
 
     try {
-      const response = await axios.post(CREATE_HOUSE_URL, houseData);
-      console.log("House created successfully:", response.data);
-      console.log(houseData);
-      // Handle successful house creation (e.g., redirect to confirmation page)
+      const res = await createHouse({
+        landlord,
+        street,
+        town,
+        estate,
+        address,
+        propertyType,
+        bedrooms,
+        bathrooms,
+        rentPrice,
+        photos,
+        description,
+
+        contactInfo,
+      });
+      dispatch(addHouse({ ...res }));
+      toast.success("Property added successfully");
     } catch (error) {
-      console.error("House creation error:", error.response.data);
-      // Handle creation errors (e.g., display error messages to user)
+      toast.error(error.response.data.message);
+      console.error(error.response.data.message);
     }
+
+    // try {
+    //   const response = await axios.post(CREATE_HOUSE_URL, houseData);
+    //   console.log("House created successfully:", response.data);
+    //   console.log(houseData);
+    //   // Handle successful house creation (e.g., redirect to confirmation page)
+    // } catch (error) {
+    //   console.error("House creation error:", error.response.data);
+    //   // Handle creation errors (e.g., display error messages to user)
+    // }
   };
 
   // Handle individual form field updates (similar for other fields)

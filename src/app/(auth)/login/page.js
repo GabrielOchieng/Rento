@@ -17,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
-
+  console.log(login);
   useEffect(() => {
     if (userInfo) {
       router.push("/");

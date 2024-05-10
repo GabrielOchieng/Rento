@@ -72,7 +72,7 @@ const Navbar = () => {
         })}
         {userInfo ? (
           <div className="py-5 px-5 flex gap-2">
-            <p>Welcome {userInfo.data.name}</p>
+            <p>Welcome {userInfo?.data?.name}</p>
             <Link href="/" onClick={logOutHandler}>
               Logout
             </Link>
