@@ -1,9 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
 import home from "../../../../public/assets/images/homebg.jpeg";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { useGetHouseQuery } from "@/redux/slices/housesApiSlice";
 
 const HouseDetails = ({ params }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -11,33 +13,27 @@ const HouseDetails = ({ params }) => {
   const [house, setHouse] = useState(null);
   const [showSellerInfo, setShowSellerInfo] = useState(false); // State for seller info visibility
 
-  console.log(houseId);
+  const { data, isLoading, error } = useGetHouseQuery(houseId);
 
-  useEffect(() => {
-    const fetchHouseDetails = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/houses/${houseId}`
-        );
-        const data = await response.json();
-        setHouse(data);
-      } catch (error) {
-        console.error("Error fetching house details:", error);
-      }
-    };
+  // useEffect(() => {
+  //   if (data) {
+  //     setHouse(data); // Update state with fetched house data
+  //   }
+  // }, [data]);
 
-    fetchHouseDetails();
-  }, [houseId]); // Fetch data only when houseId changes
-
-  if (!house) {
+  if (isLoading) {
     return <p className="text-center p-4">Loading house details...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center p-4">Error fetching house details</p>;
   }
 
   const toggleSellerInfo = () => setShowSellerInfo(!showSellerInfo); // Toggle seller info visibility
 
   return (
     <div className="flex flex-col p-8 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">{house.propertyType}</h1>
+      <h1 className="text-2xl font-bold mb-4">{house?.propertyType}</h1>
 
       <Image
         src={home}
@@ -47,11 +43,11 @@ const HouseDetails = ({ params }) => {
 
       <div className="mt-4 space-y-4 border rounded p-4">
         <p className="text-lg font-medium">
-          Rent: Ksh.{house.rentPrice} per month
+          Rent: Ksh.{data?.rentPrice} per month
         </p>
-        <p>Bedrooms: {house.bedrooms}</p>
-        <p>Location: {house.town}</p> {/* Assuming town represents location */}
-        <p>Description: {house.description}</p>
+        <p>Bedrooms: {data?.bedrooms}</p>
+        <p>Location: {data?.town}</p> {/* Assuming town represents location */}
+        <p>Description: {data?.description}</p>
       </div>
 
       {/* Seller Information Section */}
