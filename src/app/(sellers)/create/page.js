@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { useCreateHouseMutation } from "@/redux/slices/housesApiSlice";
 
@@ -24,9 +24,22 @@ const HouseForm = () => {
   const dispatch = useDispatch();
   const [createHouse, { isloading }] = useCreateHouseMutation();
 
+  // Hidden input to store previously selected files
+  const hiddenFileInputRef = useRef(null);
+
   const handlePhotoChange = (e) => {
-    setPhotos(e.target.files);
-    console.log(e.target.files);
+    const newPhotos = e.target.files;
+    // for (let i = 0; i < e.target.files.length; i++) {
+    //   newPhotos.push(e.target.files[i]);
+
+    //   // newPhotos.push(URL.createObjectURL(e.target.files[i]));
+    // }
+    setPhotos([...photos, ...newPhotos]);
+    console.log(newPhotos);
+  };
+
+  const handleClick = (e) => {
+    hiddenFileInputRef.current.click();
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -267,9 +280,11 @@ const HouseForm = () => {
                 Photo
               </label>
               <div className="flex items-center space-x-4">
+                <button onClick={handleClick}>Select Photos</button>
                 <input
                   type="file"
                   id="photo"
+                  ref={hiddenFileInputRef}
                   name="photo"
                   accept="image/*"
                   multiple
