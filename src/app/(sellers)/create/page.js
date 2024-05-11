@@ -3,11 +3,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useCreateHouseMutation } from "@/redux/slices/housesApiSlice";
-import { addHouse } from "@/redux/slices/HouseSlice";
+
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-// Replace with your actual API route URL
-const CREATE_HOUSE_URL = "http://localhost:5000/api/houses";
 
 const HouseForm = () => {
   const [landlord, setLandlord] = useState(""); // Assuming you have landlord data
@@ -26,57 +24,47 @@ const HouseForm = () => {
   const dispatch = useDispatch();
   const [createHouse, { isloading }] = useCreateHouseMutation();
 
+  const handlePhotoChange = (e) => {
+    setPhotos(e.target.files);
+    console.log(e.target.files);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(); // For handling image uploads
+    formData.append("landlord", landlord);
+    formData.append("street", street);
+    formData.append("town", town);
+    formData.append("estate", estate);
+    formData.append("address", address);
+    formData.append("propertyType", propertyType);
+    formData.append("bedrooms", bedrooms);
+    formData.append("bathrooms", bathrooms);
+    formData.append("rentPrice", rentPrice);
+    formData.append("description", description);
+    formData.append("contactInfo", contactInfo);
 
-    // const houseData = {
-    //   landlord,
-    //   street,
-    //   town,
-    //   estate,
-    //   address,
-    //   propertyType,
-    //   bedrooms,
-    //   bathrooms,
-    //   rentPrice,
-    //   photos,
-    //   description,
-
-    //   contactInfo,
-    // };
-
-    try {
-      const res = await createHouse({
-        landlord,
-        street,
-        town,
-        estate,
-        address,
-        propertyType,
-        bedrooms,
-        bathrooms,
-        rentPrice,
-        photos,
-        description,
-
-        contactInfo,
-      });
-      dispatch(addHouse({ ...res }));
-      toast.success("Property added successfully");
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.error(error.response.data.message);
+    // Handle image uploads (replace with your upload logic)
+    for (let i = 0; i < photos.length; i++) {
+      formData.append("photos", photos[i]);
     }
 
-    // try {
-    //   const response = await axios.post(CREATE_HOUSE_URL, houseData);
-    //   console.log("House created successfully:", response.data);
-    //   console.log(houseData);
-    //   // Handle successful house creation (e.g., redirect to confirmation page)
-    // } catch (error) {
-    //   console.error("House creation error:", error.response.data);
-    //   // Handle creation errors (e.g., display error messages to user)
-    // }
+    try {
+      const response = await createHouse(formData);
+      if (response.error) {
+        console.error("House creation error:", response.error.message);
+        toast.error("An error occurred while adding the house.");
+      } else {
+        console.log("House created successfully:", response.data);
+        toast.success("House added successfully!");
+        // Reset form after successful submission (optional)
+        setLandlord("");
+        setStreet("");
+        // ... reset other fields
+      }
+    } catch (error) {
+      console.error("House creation error:", error);
+      toast.error("An error occurred while adding the house.");
+    }
   };
 
   // Handle individual form field updates (similar for other fields)
@@ -284,8 +272,8 @@ const HouseForm = () => {
                   id="photo"
                   name="photo"
                   accept="image/*"
-                  //   onChange={handlePhotoChange}
-                  //   className="hidden"
+                  multiple
+                  onChange={handlePhotoChange}
                 />
               </div>
             </div>
