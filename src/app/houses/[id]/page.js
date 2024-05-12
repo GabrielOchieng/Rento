@@ -14,7 +14,7 @@ const HouseDetails = ({ params }) => {
   const [showSellerInfo, setShowSellerInfo] = useState(false); // State for seller info visibility
 
   const { data, isLoading, error } = useGetHouseQuery(houseId);
-
+  console.log(data?.photos);
   // useEffect(() => {
   //   if (data) {
   //     setHouse(data); // Update state with fetched house data
@@ -36,9 +36,11 @@ const HouseDetails = ({ params }) => {
       <h1 className="text-2xl font-bold mb-4">{house?.propertyType}</h1>
 
       <Image
-        src={home}
+        src={data?.photos[0]}
         alt="House Image"
         className="rounded-lg h-96 w-full object-cover"
+        width={96}
+        height={96}
       />
 
       <div className="mt-4 space-y-4 border rounded p-4">

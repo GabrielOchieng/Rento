@@ -2,6 +2,7 @@ import Image from "next/image";
 import home from "../../public/assets/images/homebg.jpeg";
 
 const HouseCard = ({ house, onViewDetails }) => {
+  console.log(house.photos[0]);
   // Assuming house object has properties like address, photos, rentPrice
   const {
     address,
@@ -18,7 +19,10 @@ const HouseCard = ({ house, onViewDetails }) => {
       <Image
         src={photos && photos[0] ? photos[0] : home} // Display first photo or placeholder
         alt="House"
-        className="w-full h-48 object-cover rounded-t-md"
+        className="w-full h-96 object-cover rounded-t-md"
+        width={48}
+        height={48}
+        layout="responsive" // Or 'responsive'
       />
 
       <div className="flex justify-between items-center">
