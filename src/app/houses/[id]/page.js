@@ -32,20 +32,37 @@ const HouseDetails = ({ params }) => {
   const toggleSellerInfo = () => setShowSellerInfo(!showSellerInfo); // Toggle seller info visibility
 
   return (
-    <div className="flex flex-col p-8 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">{house?.propertyType}</h1>
+    <div className="flex flex-col p-8  mx-auto">
+      <h1 className="text-2xl font-bold mb-4">{data?.propertyType}</h1>
+      <div className="flex gap-3">
+        <Image
+          src={data.photos && data.photos[0] ? data?.photos[0] : home}
+          alt="House Image"
+          className="rounded-lg h-96 w-full object-cover"
+          width={96}
+          height={96}
+          layout="responsive"
+        />
 
-      <Image
-        src={data.photos && data.photos[0] ? data?.photos[0] : home}
-        alt="House Image"
-        className="rounded-lg h-96 w-full object-cover"
-        width={96}
-        height={96}
-        layout="responsive"
-      />
-
+        <Image
+          src={data.photos && data.photos[1]}
+          alt="House Image"
+          className="rounded-lg h-96 w-full object-cover"
+          width={96}
+          height={96}
+          layout="responsive"
+        />
+        <Image
+          src={data.photos && data.photos[2]}
+          alt="House Image"
+          className="rounded-lg object-cover"
+          width={96}
+          height={96}
+          layout="responsive"
+        />
+      </div>
       <div className="mt-4 space-y-4 border rounded p-4">
-        <p className="text-lg font-medium">
+        <p className="text-lg font-medium ">
           Rent: Ksh.{data?.rentPrice} per month
         </p>
         <p>Bedrooms: {data?.bedrooms}</p>
