@@ -36,11 +36,12 @@ const HouseDetails = ({ params }) => {
       <h1 className="text-2xl font-bold mb-4">{house?.propertyType}</h1>
 
       <Image
-        src={data?.photos[0]}
+        src={data.photos && data.photos[0] ? data?.photos[0] : home}
         alt="House Image"
         className="rounded-lg h-96 w-full object-cover"
         width={96}
         height={96}
+        layout="responsive"
       />
 
       <div className="mt-4 space-y-4 border rounded p-4">
