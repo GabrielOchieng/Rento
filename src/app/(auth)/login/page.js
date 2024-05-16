@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import backgroundImg from "../../../../public/assets/images/backgroundImg.jpg";
 import { useRouter } from "next/navigation";
@@ -17,7 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(login);
+
   useEffect(() => {
     if (userInfo) {
       router.push("/");
@@ -57,6 +56,7 @@ const Login = () => {
               name="email"
               required
               autoComplete="email"
+              placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -72,6 +72,7 @@ const Login = () => {
               name="password"
               required
               autoComplete="current-password"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"

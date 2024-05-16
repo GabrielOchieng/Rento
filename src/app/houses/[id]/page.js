@@ -1,4 +1,5 @@
 "use client";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 import home from "../../../../public/assets/images/homebg.jpeg";
 import { useState, useEffect } from "react";
@@ -14,7 +15,7 @@ const HouseDetails = ({ params }) => {
   const [showSellerInfo, setShowSellerInfo] = useState(false); // State for seller info visibility
 
   const { data, isLoading, error } = useGetHouseQuery(houseId);
-  console.log(data?.photos);
+  console.log(data);
   // useEffect(() => {
   //   if (data) {
   //     setHouse(data); // Update state with fetched house data
@@ -82,17 +83,18 @@ const HouseDetails = ({ params }) => {
         (userInfo ? (
           <div className="mt-4 border rounded p-4">
             {/* Add content for Seller Information here */}
-            <p>Seller Name: {/* Replace with actual seller information */}</p>
+            <p>Seller Name: {data.landlord}</p>
             <p>
-              Contact Information:{" "}
+              Contact Information: {data.contactInfo}
               {/* Replace with actual seller information */}
             </p>
             {/* Add any other relevant seller details */}
           </div>
         ) : (
-          <Link className="mt-4 border rounded p-4" href="/login">
-            Login to view more information
-          </Link>
+          <div className="w-full flex justify-between mt-4 border rounded items-center p-4">
+            <IoPersonCircleOutline className="h-48 w-48" />
+            <Link href="/login">Login to view more information</Link>
+          </div>
         ))}
     </div>
   );

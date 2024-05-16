@@ -23,7 +23,6 @@ export const housesApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: house,
       }),
-      // overrideExisting: true,
     }),
     updateHouse: builder.mutation({
       query: (house) => ({

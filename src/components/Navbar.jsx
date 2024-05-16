@@ -40,8 +40,8 @@ const Navbar = () => {
     try {
       await logOutApiCall().unwrap();
       dispatch(logOut());
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 

@@ -2,12 +2,17 @@ import Image from "next/image";
 import home from "../../public/assets/images/homebg.jpeg";
 import { useDeleteHouseMutation } from "@/redux/slices/housesApiSlice";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const HouseCard = ({ house, onViewDetails }) => {
+  const { userInfo } = useSelector((state) => state.auth);
+  console.log(userInfo);
   console.log(house.photos[0]);
   // Assuming house object has properties like address, photos, rentPrice
   const {
     _id,
+    landload,
     address,
     photos,
     rentPrice,
@@ -21,11 +26,13 @@ const HouseCard = ({ house, onViewDetails }) => {
     useDeleteHouseMutation();
 
   const handleDelete = async (e) => {
+    if (!userInfo) return;
     if (window.confirm("Are you sure you want to delete this house?")) {
       try {
         await deleteHouse(_id);
         // Handle successful deletion (e.g., remove from UI)
         console.log("House deleted successfully!");
+        toast.success("House deleted successfully!");
       } catch (error) {
         console.error("Error deleting house:", error);
         // Handle deletion error (e.g., display error message)
