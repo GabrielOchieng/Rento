@@ -15,7 +15,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState(""); // Assuming you have default selection
+  const [role, setRole] = useState(""); // Assuming you have default selection
   const [phoneNumber, setPhoneNumber] = useState("");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -38,7 +38,7 @@ const Signup = () => {
           name,
           email,
           password,
-          userType,
+          role,
           phoneNumber,
         });
         dispatch(setCredentials({ ...res }));
@@ -127,16 +127,16 @@ const Signup = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="userType" className="text-sm font-medium mb-1">
+            <label htmlFor="role" className="text-sm font-medium mb-1">
               User Type
             </label>
             {/* Implement user type selection based on your UI framework (dropdown, radio buttons, etc.) */}
             <select
-              id="userType"
-              name="userType"
+              id="role"
+              name="role"
               required
-              value={userType}
-              onChange={(e) => setUserType(e.target.value)}
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">Select User Type</option>

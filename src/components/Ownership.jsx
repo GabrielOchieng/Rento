@@ -8,7 +8,7 @@ const Ownership = () => {
     <div className="flex flex-col gap-8 py-8 w-[90%] mx-auto">
       <div className="text-center">
         <h1 className="font-bold text-2xl mb-2">
-          Learn more about Owning a Home
+          Learn more about owning a home
         </h1>
         <p>
           Renting is great, but maybe you are thinking about buying a home

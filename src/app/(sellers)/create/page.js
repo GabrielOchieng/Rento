@@ -390,14 +390,14 @@ const HouseForm = () => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
   return (
-    <div className="flex flex-col  gap-3 w-full bg-gray-300">
-      <div className="pt-4">
+    <div className="flex flex-col pt-4 gap-3 w-full bg-gray-300">
+      <div className="">
         <h1 className="text-3xl font-bold text-center ">Add Your Property</h1>
       </div>
       <div>
-        <form className="space-y-4 w-[90%] mx-auto " onSubmit={handleSubmit}>
+        <form className="space-y-4 w-[90%] mx-auto  " onSubmit={handleSubmit}>
           {/* Address Section */}
-          <h2>Address</h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label

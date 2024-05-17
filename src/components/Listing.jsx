@@ -13,8 +13,8 @@ const Listing = () => {
           for rent.
         </p>
       </div>
-      <div className="flex bg-gray-100 ">
-        <div className="flex flex-col items-start justify-center w-1/2 p-10 gap-5 ">
+      <div className="flex flex-col sm:flex-row bg-gray-100 ">
+        <div className="flex flex-col items-start justify-center w-full sm:w-1/2 p-10 gap-5 ">
           <h3 className="font-bold text-2xl">Renting Made Simple</h3>
           <p>
             Browse the highest quality provisions, apply online, connect with
@@ -25,7 +25,7 @@ const Listing = () => {
             Find Out More
           </Link>
         </div>
-        <div className="w-1/2 ">
+        <div className=" w-full sm:w-1/2 ">
           <Image
             src={browsing}
             alt="Browsing"
