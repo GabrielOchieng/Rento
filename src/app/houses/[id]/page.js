@@ -81,14 +81,14 @@ const HouseDetails = ({ params }) => {
 
       {showSellerInfo &&
         (userInfo ? (
-          <div className="mt-4 border rounded p-4">
-            {/* Add content for Seller Information here */}
-            <p>Seller Name: {data.landlord}</p>
-            <p>
-              Contact Information: {data.contactInfo}
-              {/* Replace with actual seller information */}
-            </p>
-            {/* Add any other relevant seller details */}
+          <div className="w-full flex justify-between mt-4 border rounded items-center p-4">
+            <div>
+              <IoPersonCircleOutline className="h-48 w-48 text-blue-400" />
+            </div>
+            <div>
+              <p>Seller Name: {data.landlord}</p>
+              <p>Contact Information: {data.contactInfo}</p>
+            </div>
           </div>
         ) : (
           <div className="w-full flex justify-between mt-4 border rounded items-center p-4">
